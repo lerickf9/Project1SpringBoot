@@ -9,10 +9,7 @@ import erickcode.screenmatch.service.ConvierteDatos;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -82,11 +79,11 @@ public class Principal {
 //        episodios.forEach(System.out::println);
 
         //Busqueda de episodios a partir de  un año especifico
-        System.out.println("Indica el año del cual deseas ver los episodios");
-        var fecha = teclado.nextInt();
-        teclado.nextLine();
-
-        LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
+//        System.out.println("Indica el año del cual deseas ver los episodios");
+//        var fecha = teclado.nextInt();
+//        teclado.nextLine();
+//
+//        LocalDate fechaBusqueda = LocalDate.of(fecha, 1, 1);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-YYYY");
 //        episodios.stream()
@@ -98,11 +95,21 @@ public class Principal {
 //                ));
 
         //Busqueda de episodio por un pedazo de titulo
-        System.out.println("Ingrese el titulo del episodio que desea ver");
-        var pedazoTitulo = teclado.nextLine();
-        episodios.stream()
-                .filter(e-> e.getTitulo().contains(pedazoTitulo))
-                .findFirst();
+//        System.out.println("Ingrese el titulo del episodio que desea ver");
+//        var pedazoTitulo = teclado.nextLine();
+//        Optional<Episodio> episodioBuscado = episodios.stream()
+//                .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))
+//                .findFirst();
+//        if(episodioBuscado.isPresent()){
+//            System.out.println(" Episodio encontrado ");
+//            System.out.println("Los datos son: "+ episodioBuscado.get());
+//        }else{
+//            System.out.println("¡Episodio no encontrado!");
+//        }
 
+        Map<Integer, Double> evaluacionesPorTemporada = episodios.stream()
+                .collect(Collectors.groupingBy(Episodio::getTemporada,
+                        Collectors.averagingDouble(Episodio::getEvaluacion)));
+        System.out.println(evaluacionesPorTemporada);
     }
 }
