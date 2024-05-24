@@ -108,8 +108,25 @@ public class Principal {
 //        }
 
         Map<Integer, Double> evaluacionesPorTemporada = episodios.stream()
+                .filter(e -> e.getEvaluacion()> 0.0)
                 .collect(Collectors.groupingBy(Episodio::getTemporada,
                         Collectors.averagingDouble(Episodio::getEvaluacion)));
         System.out.println(evaluacionesPorTemporada);
+
+        //Tengo error con DoubleSummaryStatistics cuando coloco Episodio::getEvaluacion()
+        DoubleSummaryStatistics est = episodios.stream()
+                .filter(e -> e.getEvaluacion() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getEvaluacion));
+        System.out.println("Media de las evaluaciones: "+ est.getAverage());
+        System.out.println("Epísodio mejor evaluado: "+ est.getMax());
+        System.out.println("Epísodio Peor evaluado: "+ est.getMin());
+
+
+//        DoubleSummaryStatistics est = episodios.doubleStream()
+//                .filter(e -> e.getEvaluacion()> 0.0)
+//                .collect(Collectors.summingDouble(Episodio::getEvaluacion));
+//        System.out.println("Media de evaluacion " + est.getAverage());
+//        System.out.println("Episodio Mejor evaluacion " + est.getAverage());
+//        System.out.println("Episodio Peor evaluado" + est.getMin());
     }
 }
